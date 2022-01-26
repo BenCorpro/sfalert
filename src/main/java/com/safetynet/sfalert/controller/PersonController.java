@@ -1,70 +1,88 @@
 package com.safetynet.sfalert.controller;
 
-import java.text.ParseException;
-import java.util.HashMap;
+import java.net.URI;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.safetynet.sfalert.model.ChildAlert;
-import com.safetynet.sfalert.model.FireAlert;
-import com.safetynet.sfalert.model.FireStationArea;
 import com.safetynet.sfalert.model.Person;
 import com.safetynet.sfalert.model.PersonInfo;
-import com.safetynet.sfalert.model.StationPeople;
-import com.safetynet.sfalert.service.ChildAlertService;
-import com.safetynet.sfalert.service.FireAlertService;
-import com.safetynet.sfalert.service.FireStationAreaService;
-import com.safetynet.sfalert.service.FloodAlertService;
-import com.safetynet.sfalert.service.PersonInfoService;
-import com.safetynet.sfalert.service.PersonService;
-import com.safetynet.sfalert.service.PhoneAlertService;
+import com.safetynet.sfalert.service.IChildAlertService;
+import com.safetynet.sfalert.service.IEmailService;
+import com.safetynet.sfalert.service.IPersonInfoService;
+import com.safetynet.sfalert.service.IPersonService;
 
 @RestController
 public class PersonController {
 
-  PersonService personService = new PersonService();
-  FireStationAreaService fireStationAreaService = new FireStationAreaService();
-  ChildAlertService childAlertService = new ChildAlertService();
-  PhoneAlertService phoneAlertService = new PhoneAlertService();
-  FireAlertService fireAlertService = new FireAlertService();
-  FloodAlertService floodAlertService = new FloodAlertService();
-  PersonInfoService personInfoService = new PersonInfoService();
+  @Autowired
+  IPersonService personService;
+  @Autowired
+  IChildAlertService childAlertService;
+  @Autowired
+  IPersonInfoService personInfoService;
+  @Autowired
+  IEmailService emailService;
   
-  @GetMapping("/persons")
-  public List<Person> getPersons(){
-    return personService.getPersons();
+  @PostMapping("/person")
+  public ResponseEntity<Person> addPerson(@RequestBody Person person){
+    Person addedPerson = personService.savePerson(person);
+    if(Objects.isNull(addedPerson)) {
+      return ResponseEntity.noContent().build();
+    } else {
+      URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+          .path("/{firstName}&{lastName}")
+          .buildAndExpand(addedPerson.getFirstName(), addedPerson.getLastName())
+          .toUri();
+      return ResponseEntity.created(location).build(); 
+    }    
   }
   
-  @GetMapping("/firestation")
-  public FireStationArea getStationPeoples(@RequestParam("stationNumber") String stationNumber) throws ParseException {
-    return fireStationAreaService.getStationPeople(stationNumber);
+  @PutMapping("/person")
+  public ResponseEntity<Person> updatePerson(@RequestBody Person person) {
+    Person updatedPerson = personService.updatePerson(person);
+    if(Objects.isNull(updatedPerson)) {
+      return ResponseEntity.notFound().build();
+    } else {
+      return ResponseEntity.ok(updatedPerson);
+    }
+  }
+  
+  @DeleteMapping("/person")
+  public ResponseEntity<Boolean> deletePerson(@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName) {
+    boolean personDeleted = personService.deletePerson(firstName, lastName);   
+    if(!personDeleted) {
+      return ResponseEntity.notFound().build();
+    } else {
+      return ResponseEntity.ok().body(personDeleted);
+    }
   }
   
   @GetMapping("/childAlert")
-  public List<ChildAlert> getChildAlert(@RequestParam("address") String address) throws ParseException{
+  public Map<String, List<ChildAlert>> getChildAlert(@RequestParam("address") String address){
     return childAlertService.getChilds(address);
   }
   
-  @GetMapping("/phoneAlert")
-  public List<String> getPhoneAlert(@RequestParam("firestation") String firestation){
-    return phoneAlertService.phoneNumberList(firestation);
-  }
-  
-  @GetMapping("/fire")
-  public List<FireAlert> getFireAlert(@RequestParam("address") String address) throws ParseException{
-    return fireAlertService.fireListAddress(address);
-  }
-  
-  @GetMapping("/flood/stations")
-  public List<FireAlert> getFloodAlert(@RequestParam("stations") String stations) throws ParseException{
-    return floodAlertService.floodListStation(stations);
-  }
-  
   @GetMapping("/personInfo")
-  public PersonInfo getPersonInfo(@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName) throws ParseException {
+  public List<PersonInfo> getPersonInfo(@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName){
     return personInfoService.getPersonInfo(firstName, lastName);
   }
+  
+  @GetMapping("/communityEmail")
+  public List<String> getEmails(@RequestParam("city") String city){
+    return emailService.getEmailList(city);
+  }
+  
 }

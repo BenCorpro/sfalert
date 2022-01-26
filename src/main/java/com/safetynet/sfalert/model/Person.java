@@ -1,5 +1,6 @@
 package com.safetynet.sfalert.model;
 
+
 public class Person {
   
   private String firstName;
@@ -9,6 +10,8 @@ public class Person {
   private String zip;
   private String phone;
   private String email;
+  private MedicalRecord medicalRecord;
+  private FireStation fireStation;
   
   
   public Person() {
@@ -27,7 +30,35 @@ public class Person {
     this.email = email;
   }
 
+  public Person(String firstName, String lastName, String address, String city,
+      String zip, String phone, String email, MedicalRecord medicalRecord) {
+    super();
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.address = address;
+    this.city = city;
+    this.zip = zip;
+    this.phone = phone;
+    this.email = email;
+    this.medicalRecord = medicalRecord;
+  }
 
+  public Person(String firstName, String lastName, String address, String city,
+      String zip, String phone, String email, MedicalRecord medicalRecord,
+      FireStation fireStation) {
+    super();
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.address = address;
+    this.city = city;
+    this.zip = zip;
+    this.phone = phone;
+    this.email = email;
+    this.medicalRecord = medicalRecord;
+    this.fireStation = fireStation;
+  }
+
+  
   public String getFirstName() {
     return firstName;
   }
@@ -71,6 +102,23 @@ public class Person {
     this.email = email;
   }
 
+  public MedicalRecord getMedicalRecord() {
+    return medicalRecord;
+  }
+
+  public void setMedicalRecord(MedicalRecord medicalRecord) {
+    this.medicalRecord = medicalRecord;
+  }
+
+  public FireStation getFireStation() {
+    return fireStation;
+  }
+
+  public void setFireStation(FireStation fireStation) {
+    this.fireStation = fireStation;
+  }
+
+  
   @Override
   public String toString() {
     return "Person [firstName=" + firstName + ", lastName=" + lastName

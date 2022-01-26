@@ -1,53 +1,41 @@
 package com.safetynet.sfalert.util;
 
-import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
 
-import com.safetynet.sfalert.model.MedicalRecord;
-import com.safetynet.sfalert.repository.MedicalRecordProxy;
+import com.safetynet.sfalert.constants.Constants;
+
 
 public class AgeCalculator {
   
-  MedicalRecordProxy medicalRecordProxy = new MedicalRecordProxy();
   
-  
-  public static Period ageCalculator(String dataBirthDate) throws ParseException {
+  public static Period ageCalculator(String dataBirthDate) {
     LocalDate dateNow = LocalDate.now();
-    LocalDate birthDate = LocalDate.parse(dataBirthDate, DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+    LocalDate birthDate = LocalDate.parse(dataBirthDate, DateTimeFormatter.ofPattern(Constants.DATE_PATTERN));
     Period age = Period.between(birthDate, dateNow);
     return age;
   }
   
-  public List<Boolean> legalAgeFonction(List<Period> ages){
-    long legalAge = 18;
-    List<Boolean> majority = new ArrayList<Boolean>();
-    for(Period a : ages) {
-      if(a.minusYears(legalAge).isNegative()) {
-        majority.add(false);
+  public static boolean legalAgeFonction(Period age){
+    boolean majority;
+      if(age.minusYears(Constants.LEGAL_AGE).isNegative()) {
+        majority = false;
       } else {
-        majority.add(true);
+        majority = true;
       }
-    }
-    return majority;
+      return majority;
   }
   
-  public List<Integer> childAndAdultCount(List<Boolean> majority) {
-    int adultCount = 0;
-    int childCount = 0;
-    List<Integer> majorityCount = new ArrayList<Integer>();
-    for(Boolean m : majority) {
-      if(m == false) {
-        childCount++;
+  public static boolean legalAgeFonction(String birthDate){
+    boolean majority;
+    Period age = ageCalculator(birthDate); 
+      if(age.minusYears(Constants.LEGAL_AGE).isNegative()) {
+        majority = false;
       } else {
-        adultCount++;
+        majority = true;
       }
-    } 
-    majorityCount.add(childCount);
-    majorityCount.add(adultCount);
-    return majorityCount;
+      return majority;
   }
+  
 }

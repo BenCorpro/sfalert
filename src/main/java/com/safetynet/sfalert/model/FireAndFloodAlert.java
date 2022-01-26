@@ -1,25 +1,24 @@
 package com.safetynet.sfalert.model;
 
-import java.time.Period;
 import java.util.List;
 
-public class FireAlert {
+public class FireAndFloodAlert {
   
   private String firstName;
   private String lastName;
   private String phone;
-  private Period age;
+  private int age;
   private List<String> medications;
   private List<String> allergies;
   
   
-  
-  public FireAlert() {
+  public FireAndFloodAlert() {
 
   }
-
-  public FireAlert(String firstName, String lastName, String phone, Period age,
-      List<String> medications, List<String> allergies) {
+  
+  public FireAndFloodAlert(String firstName, String lastName, String phone,
+      int age, List<String> medications, List<String> allergies) {
+    super();
     this.firstName = firstName;
     this.lastName = lastName;
     this.phone = phone;
@@ -47,10 +46,10 @@ public class FireAlert {
   public void setPhone(String phone) {
     this.phone = phone;
   }
-  public Period getAge() {
+  public int getAge() {
     return age;
   }
-  public void setAge(Period age) {
+  public void setAge(int age) {
     this.age = age;
   }
   public List<String> getMedications() {
@@ -65,13 +64,11 @@ public class FireAlert {
   public void setAllergies(List<String> allergies) {
     this.allergies = allergies;
   }
-  
-  
   @Override
   public String toString() {
-    return "FireAlert [firstName=" + firstName + ", lastName=" + lastName
-        + ", phone=" + phone + ", age=" + age + ", medications=" + medications
-        + ", allergies=" + allergies + "]";
+    return "FireAndFloodAlert [firstName=" + firstName + ", lastName="
+        + lastName + ", phone=" + phone + ", age=" + age + ", medications="
+        + medications + ", allergies=" + allergies + "]";
   }
   
   

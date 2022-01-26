@@ -1,18 +1,17 @@
 package com.safetynet.sfalert.model;
 
-import java.time.Period;
 
 public class ChildAlert {
     private String lastName;
     private String firstName;
-    private Period age;
+    private int age;
     
     
     public ChildAlert() {
 
     }
     
-    public ChildAlert(String lastName, String firstName, Period age) {
+    public ChildAlert(String lastName, String firstName, int age) {
       this.lastName = lastName;
       this.firstName = firstName;
       this.age = age;
@@ -31,10 +30,10 @@ public class ChildAlert {
     public void setFirstName(String firstName) {
       this.firstName = firstName;
     }
-    public Period getAge() {
+    public int getAge() {
       return age;
     }
-    public void setAge(Period age) {
+    public void setAge(int age) {
       this.age = age;
     }
     

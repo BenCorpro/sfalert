@@ -1,6 +1,5 @@
 package com.safetynet.sfalert.model;
 
-import java.time.Period;
 import java.util.List;
 
 public class PersonInfo {
@@ -8,7 +7,7 @@ public class PersonInfo {
   private String firstName;
   private String lastName;
   private String address;
-  private Period age;
+  private int age;
   private String email;
   private List<String> medications;
   private List<String> allergies;
@@ -20,7 +19,7 @@ public class PersonInfo {
 
 
   public PersonInfo(String firstName, String lastName, String address,
-      Period age, String email, List<String> medications,
+      int age, String email, List<String> medications,
       List<String> allergies) {
 
     this.firstName = firstName;
@@ -51,10 +50,10 @@ public class PersonInfo {
   public void setAddress(String address) {
     this.address = address;
   }
-  public Period getAge() {
+  public int getAge() {
     return age;
   }
-  public void setAge(Period age) {
+  public void setAge(int age) {
     this.age = age;
   }
   public String getEmail() {

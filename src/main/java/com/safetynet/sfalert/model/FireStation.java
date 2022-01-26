@@ -1,5 +1,6 @@
 package com.safetynet.sfalert.model;
 
+
 public class FireStation {
   
   private String address;
@@ -14,7 +15,7 @@ public class FireStation {
     this.address = address;
     this.station = station;
   }
-  
+
   
   public String getAddress() {
     return address;
@@ -28,7 +29,7 @@ public class FireStation {
   public void setStation(String station) {
     this.station = station;
   }
-
+  
   
   @Override
   public String toString() {
