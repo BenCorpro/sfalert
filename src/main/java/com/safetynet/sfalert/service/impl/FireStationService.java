@@ -18,7 +18,7 @@ import com.safetynet.sfalert.service.IFireStationService;
 public class FireStationService implements IFireStationService {
 
   @Autowired
-  Json json;
+  private Json json;
   
   @Override 
   public FireStation saveFireStation(FireStation fireStation) {

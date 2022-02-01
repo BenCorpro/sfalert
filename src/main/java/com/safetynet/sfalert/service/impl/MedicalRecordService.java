@@ -1,4 +1,4 @@
-package com.safetynet.sfalert.service;
+package com.safetynet.sfalert.service.impl;
 
 import java.util.List;
 import java.util.ListIterator;
@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.safetynet.sfalert.model.Json;
 import com.safetynet.sfalert.model.MedicalRecord;
+import com.safetynet.sfalert.service.IMedicalRecordService;
 
 @Service
 public class MedicalRecordService implements IMedicalRecordService {

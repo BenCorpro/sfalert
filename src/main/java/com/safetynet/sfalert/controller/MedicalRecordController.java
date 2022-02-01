@@ -20,7 +20,7 @@ import com.safetynet.sfalert.service.IMedicalRecordService;
 public class MedicalRecordController {
 
   @Autowired
-  IMedicalRecordService medicalRecordService;
+  private IMedicalRecordService medicalRecordService;
   
   @PostMapping("/medicalRecord")
   public ResponseEntity<MedicalRecord> addMedicalRecord(@RequestBody MedicalRecord medicalRecord){

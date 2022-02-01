@@ -1,28 +1,32 @@
-package com.safetynet.sfalert.model;
+package com.safetynet.sfalert.dto;
 
 import java.util.List;
 
-public class FireAndFloodAlert {
+public class PersonInfoDto {
   
   private String firstName;
   private String lastName;
-  private String phone;
+  private String address;
   private int age;
+  private String email;
   private List<String> medications;
   private List<String> allergies;
   
   
-  public FireAndFloodAlert() {
+  public PersonInfoDto() {
 
   }
-  
-  public FireAndFloodAlert(String firstName, String lastName, String phone,
-      int age, List<String> medications, List<String> allergies) {
-    super();
+
+
+  public PersonInfoDto(String firstName, String lastName, String address,
+      int age, String email, List<String> medications,
+      List<String> allergies) {
+
     this.firstName = firstName;
     this.lastName = lastName;
-    this.phone = phone;
+    this.address = address;
     this.age = age;
+    this.email = email;
     this.medications = medications;
     this.allergies = allergies;
   }
@@ -40,17 +44,23 @@ public class FireAndFloodAlert {
   public void setLastName(String lastName) {
     this.lastName = lastName;
   }
-  public String getPhone() {
-    return phone;
+  public String getAddress() {
+    return address;
   }
-  public void setPhone(String phone) {
-    this.phone = phone;
+  public void setAddress(String address) {
+    this.address = address;
   }
   public int getAge() {
     return age;
   }
   public void setAge(int age) {
     this.age = age;
+  }
+  public String getEmail() {
+    return email;
+  }
+  public void setEmail(String email) {
+    this.email = email;
   }
   public List<String> getMedications() {
     return medications;
@@ -64,11 +74,13 @@ public class FireAndFloodAlert {
   public void setAllergies(List<String> allergies) {
     this.allergies = allergies;
   }
+
+
   @Override
   public String toString() {
-    return "FireAndFloodAlert [firstName=" + firstName + ", lastName="
-        + lastName + ", phone=" + phone + ", age=" + age + ", medications="
-        + medications + ", allergies=" + allergies + "]";
+    return "PersonInfo [firstName=" + firstName + ", lastName=" + lastName
+        + ", address=" + address + ", age=" + age + ", email=" + email
+        + ", medications=" + medications + ", allergies=" + allergies + "]";
   }
   
   

@@ -9,7 +9,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.safetynet.sfalert.model.FireAndFloodAlert;
+import com.safetynet.sfalert.dto.FireAndFloodAlertDto;
 import com.safetynet.sfalert.model.FireStation;
 import com.safetynet.sfalert.model.Json;
 import com.safetynet.sfalert.model.Person;
@@ -20,11 +20,11 @@ import com.safetynet.sfalert.util.AgeCalculator;
 public class FloodAlertService implements IFloodAlertService {
 
   @Autowired
-  Json json;
+  private Json json;
   
   @Override 
-  public Map<String, List<FireAndFloodAlert>> floodListStation(List<String> station){
-    Map<String, List<FireAndFloodAlert>> floodAlert = new HashMap<String, List<FireAndFloodAlert>>();
+  public Map<String, List<FireAndFloodAlertDto>> floodListStation(List<String> station){
+    Map<String, List<FireAndFloodAlertDto>> floodAlert = new HashMap<String, List<FireAndFloodAlertDto>>();
     List<FireStation> fireStations = json.getFirestations();
     List<String> addresses = new ArrayList<String>();
     for(String s : station) {
@@ -34,13 +34,16 @@ public class FloodAlertService implements IFloodAlertService {
         }
       }
     }
+    if(addresses.isEmpty()) {
+      return null;
+    }
     List<Person> persons = json.getPersons();
     for(String a : addresses) {
-      List<FireAndFloodAlert> floodAlerts = new ArrayList<FireAndFloodAlert>();
+      List<FireAndFloodAlertDto> floodAlerts = new ArrayList<FireAndFloodAlertDto>();
       for(Person p : persons) {
         if(p.getAddress().equals(a)) {
           Period etAge = AgeCalculator.ageCalculator(p.getMedicalRecord().getBirthdate());
-          floodAlerts.add(new FireAndFloodAlert(p.getFirstName(),
+          floodAlerts.add(new FireAndFloodAlertDto(p.getFirstName(),
                                         p.getLastName(),
                                         p.getPhone(),
                                         etAge.getYears(),

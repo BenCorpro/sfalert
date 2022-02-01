@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.safetynet.sfalert.model.Json;
 import com.safetynet.sfalert.model.Person;
-import com.safetynet.sfalert.model.StationPeople;
+import com.safetynet.sfalert.dto.StationPeopleDto;
 import com.safetynet.sfalert.service.IFireStationAreaService;
 import com.safetynet.sfalert.util.AgeCalculator;
 
@@ -18,18 +18,18 @@ import com.safetynet.sfalert.util.AgeCalculator;
 public class FireStationAreaService implements IFireStationAreaService {
 
   @Autowired
-  Json json;
+  private Json json;
 
   @Override 
   public Map<String, Object> getStationPeople(String stationNumber){
     List<Person> persons = json.getPersons();
-    List<StationPeople> stationPeoples = new ArrayList<StationPeople>();
+    List<StationPeopleDto> stationPeoples = new ArrayList<StationPeopleDto>();
     Map<String, Object> fireSationArea = new HashMap<String, Object>();
     int adultCount = 0;
     int childCount = 0;
     for(Person p : persons) {
       if(p.getFireStation().getStation().equals(stationNumber)) {
-        stationPeoples.add(new StationPeople(p.getFirstName(),
+        stationPeoples.add(new StationPeopleDto(p.getFirstName(),
                                              p.getLastName(), 
                                              p.getAddress() + " " + 
                                              p.getZip() + " " + 
@@ -41,9 +41,12 @@ public class FireStationAreaService implements IFireStationAreaService {
           childCount++;
         }
         fireSationArea.put("Persons covered", stationPeoples);
-        fireSationArea.put("Number of child", childCount);
+        fireSationArea.put("Number of childs", childCount);
         fireSationArea.put("Number of adults", adultCount);
       }
+    }
+    if(fireSationArea.isEmpty()) {
+      return null;
     }
     return fireSationArea;
   }

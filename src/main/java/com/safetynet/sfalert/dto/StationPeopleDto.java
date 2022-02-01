@@ -1,6 +1,6 @@
-package com.safetynet.sfalert.model;
+package com.safetynet.sfalert.dto;
 
-public class StationPeople {
+public class StationPeopleDto {
   
   private String firstName;
   private String lastName;
@@ -8,11 +8,11 @@ public class StationPeople {
   private String phone;
   
   
-  public StationPeople() {
+  public StationPeopleDto() {
 
   }
   
-  public StationPeople(String firstName, String lastName, String address,
+  public StationPeopleDto(String firstName, String lastName, String address,
       String phone) {
     this.firstName = firstName;
     this.lastName = lastName;

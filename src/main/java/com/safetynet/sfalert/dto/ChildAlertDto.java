@@ -1,17 +1,17 @@
-package com.safetynet.sfalert.model;
+package com.safetynet.sfalert.dto;
 
 
-public class ChildAlert {
+public class ChildAlertDto {
     private String lastName;
     private String firstName;
     private int age;
     
     
-    public ChildAlert() {
+    public ChildAlertDto() {
 
     }
     
-    public ChildAlert(String lastName, String firstName, int age) {
+    public ChildAlertDto(String lastName, String firstName, int age) {
       this.lastName = lastName;
       this.firstName = firstName;
       this.age = age;

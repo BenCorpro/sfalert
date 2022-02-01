@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.safetynet.sfalert.model.Json;
 import com.safetynet.sfalert.model.Person;
-import com.safetynet.sfalert.model.PersonInfo;
+import com.safetynet.sfalert.dto.PersonInfoDto;
 import com.safetynet.sfalert.service.IPersonInfoService;
 import com.safetynet.sfalert.util.AgeCalculator;
 
@@ -17,16 +17,16 @@ import com.safetynet.sfalert.util.AgeCalculator;
 public class PersonInfoService implements IPersonInfoService {
 
   @Autowired
-  Json json;
+  private Json json;
   
   @Override 
-  public List<PersonInfo> getPersonInfo(String firstName, String lastName){
+  public List<PersonInfoDto> getPersonInfo(String firstName, String lastName){
     List<Person> persons = json.getPersons();
-    List<PersonInfo> personInfo = new ArrayList<PersonInfo>();
+    List<PersonInfoDto> personInfo = new ArrayList<PersonInfoDto>();
     for(Person p : persons) {
       if(p.getFirstName().equals(firstName) && p.getLastName().equals(lastName)) {
         Period etAge = AgeCalculator.ageCalculator(p.getMedicalRecord().getBirthdate());
-        personInfo.add(new PersonInfo(p.getFirstName(),
+        personInfo.add(new PersonInfoDto(p.getFirstName(),
                                     p.getLastName(),
                                     p.getAddress(),
                                     etAge.getYears(),
@@ -34,6 +34,9 @@ public class PersonInfoService implements IPersonInfoService {
                                     p.getMedicalRecord().getMedications(),
                                     p.getMedicalRecord().getAllergies()));
       }
+    }
+    if(personInfo.isEmpty()) {
+      return null;
     }
     return personInfo;
   }

@@ -14,7 +14,7 @@ import com.safetynet.sfalert.service.IPhoneAlertService;
 public class PhoneAlertService implements IPhoneAlertService {
   
   @Autowired
-  Json json;
+  private Json json;
   
   @Override 
   public List<String> phoneNumberList(String station){
@@ -24,6 +24,9 @@ public class PhoneAlertService implements IPhoneAlertService {
       if(p.getFireStation().getStation().equals(station)) {
         phoneNumbers.add(p.getPhone());
       }
+    }
+    if(phoneNumbers.isEmpty()) {
+      return null;
     }
     return phoneNumbers;
   }

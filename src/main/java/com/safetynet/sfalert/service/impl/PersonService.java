@@ -14,7 +14,7 @@ import com.safetynet.sfalert.service.IPersonService;
 public class PersonService implements IPersonService {
 
   @Autowired
-  Json json;
+  private Json json;
 
   @Override 
   public Person savePerson(Person person){

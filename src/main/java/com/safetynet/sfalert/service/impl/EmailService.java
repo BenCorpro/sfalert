@@ -14,7 +14,7 @@ import com.safetynet.sfalert.service.IEmailService;
 public class EmailService implements IEmailService {
 
   @Autowired
-  Json json;
+  private Json json;
   
   @Override 
   public List<String> getEmailList(String city){
@@ -24,6 +24,9 @@ public class EmailService implements IEmailService {
       if(p.getCity().equals(city)) {
         emails.add(p.getEmail());
       }
+    }
+    if(emails.isEmpty()) {
+      return null;
     }
     return emails;
   }

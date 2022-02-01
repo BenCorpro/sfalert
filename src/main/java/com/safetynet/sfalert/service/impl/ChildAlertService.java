@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.safetynet.sfalert.constants.Constants;
-import com.safetynet.sfalert.model.ChildAlert;
+import com.safetynet.sfalert.dto.ChildAlertDto;
 import com.safetynet.sfalert.model.Json;
 import com.safetynet.sfalert.model.Person;
 import com.safetynet.sfalert.service.IChildAlertService;
@@ -20,24 +20,27 @@ import com.safetynet.sfalert.util.AgeCalculator;
 public class ChildAlertService implements IChildAlertService {
   
   @Autowired
-  Json json;
+  private Json json;
   
   @Override 
-  public Map<String, List<ChildAlert>> getChilds(String address){
-    Map<String, List<ChildAlert>> childAlert = new HashMap<String, List<ChildAlert>>();
+  public Map<String, List<ChildAlertDto>> getChilds(String address){
+    Map<String, List<ChildAlertDto>> childAlert = new HashMap<String, List<ChildAlertDto>>();
     List<Person> persons = json.getPersons();
-    List<ChildAlert> childAlerts = new ArrayList<ChildAlert>();
-    List<ChildAlert> childAlertKids = new ArrayList<ChildAlert>();
-    List<ChildAlert> childAlertAdults = new ArrayList<ChildAlert>();
+    List<com.safetynet.sfalert.dto.ChildAlertDto> childAlerts = new ArrayList<ChildAlertDto>();
+    List<ChildAlertDto> childAlertKids = new ArrayList<ChildAlertDto>();
+    List<ChildAlertDto> childAlertAdults = new ArrayList<ChildAlertDto>();
     for(Person p : persons) {
         if(p.getAddress().equals(address)) {
           Period age = AgeCalculator.ageCalculator(p.getMedicalRecord().getBirthdate());
-          childAlerts.add(new ChildAlert(p.getLastName(), 
+          childAlerts.add(new ChildAlertDto(p.getLastName(), 
                                          p.getFirstName(), 
                                          age.getYears()));
         }
     }
-    for(ChildAlert cA : childAlerts) {
+    if(childAlerts.isEmpty()) {
+      return null;
+    }
+    for(ChildAlertDto cA : childAlerts) {
       if(cA.getAge() <= Constants.LEGAL_AGE) {
         childAlertKids.add(cA);
       } else {
