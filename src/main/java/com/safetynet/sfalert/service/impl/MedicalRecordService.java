@@ -14,7 +14,7 @@ import com.safetynet.sfalert.service.IMedicalRecordService;
 public class MedicalRecordService implements IMedicalRecordService {
 
   @Autowired
-  Json json;
+  private Json json;
   
 
   @Override 

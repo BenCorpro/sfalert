@@ -4,6 +4,8 @@ import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,12 +21,15 @@ public class PersonInfoService implements IPersonInfoService {
   @Autowired
   private Json json;
   
+  private static Logger logger = LoggerFactory.getLogger(PersonInfoService.class);
+  
   @Override 
   public List<PersonInfoDto> getPersonInfo(String firstName, String lastName){
     List<Person> persons = json.getPersons();
     List<PersonInfoDto> personInfo = new ArrayList<PersonInfoDto>();
+    logger.debug("Searching for " + lastName + " and calculating age");
     for(Person p : persons) {
-      if(p.getFirstName().equals(firstName) && p.getLastName().equals(lastName)) {
+      if(p.getLastName().equals(lastName)) {
         Period etAge = AgeCalculator.ageCalculator(p.getMedicalRecord().getBirthdate());
         personInfo.add(new PersonInfoDto(p.getFirstName(),
                                     p.getLastName(),
@@ -36,8 +41,10 @@ public class PersonInfoService implements IPersonInfoService {
       }
     }
     if(personInfo.isEmpty()) {
+      logger.error("Invalid name: " + lastName);
       return null;
     }
+    logger.info("Informations found for " + lastName);
     return personInfo;
   }
 }

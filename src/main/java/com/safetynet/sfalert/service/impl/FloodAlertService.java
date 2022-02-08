@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +24,8 @@ public class FloodAlertService implements IFloodAlertService {
   @Autowired
   private Json json;
   
+  private static Logger logger = LoggerFactory.getLogger(FloodAlertService.class);
+  
   @Override 
   public Map<String, List<FireAndFloodAlertDto>> floodListStation(List<String> station){
     Map<String, List<FireAndFloodAlertDto>> floodAlert = new HashMap<String, List<FireAndFloodAlertDto>>();
@@ -35,9 +39,11 @@ public class FloodAlertService implements IFloodAlertService {
       }
     }
     if(addresses.isEmpty()) {
+      logger.error("Invalid station(s): " + station);
       return null;
     }
     List<Person> persons = json.getPersons();
+    logger.debug("Searching people served by " + station + " and calculationg their ages");
     for(String a : addresses) {
       List<FireAndFloodAlertDto> floodAlerts = new ArrayList<FireAndFloodAlertDto>();
       for(Person p : persons) {
@@ -53,6 +59,7 @@ public class FloodAlertService implements IFloodAlertService {
       }
       floodAlert.put(a, floodAlerts);
     }
+    logger.info(floodAlert.size() + " adresses served by station(s) " + station);
     return floodAlert;
   }
   

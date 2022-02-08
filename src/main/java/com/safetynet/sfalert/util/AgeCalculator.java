@@ -17,16 +17,6 @@ public class AgeCalculator {
     return age;
   }
   
-  public static boolean legalAgeFonction(Period age){
-    boolean majority;
-      if(age.minusYears(Constants.LEGAL_AGE).isNegative()) {
-        majority = false;
-      } else {
-        majority = true;
-      }
-      return majority;
-  }
-  
   public static boolean legalAgeFonction(String birthDate){
     boolean majority;
     Period age = ageCalculator(birthDate); 

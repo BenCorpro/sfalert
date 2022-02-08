@@ -2,6 +2,7 @@ package com.safetynet.sfalert.model;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -26,7 +27,7 @@ public class Json {
     Json jsonFile = null;
     try {
       ObjectMapper objectMapper = new ObjectMapper();
-      File file = new File("/home/tez1kat/Documents/data.json");
+      File file = new File("./src/main/resources/data.json");
       jsonFile = objectMapper.readValue(file, Json.class);
     } catch (IOException e) {
       e.printStackTrace();
@@ -35,14 +36,18 @@ public class Json {
       for (MedicalRecord m : jsonFile.getMedicalrecords()) {
         if (p.getFirstName().equals(m.getFirstName())
             && p.getLastName().equals(m.getLastName())) {
-          for (FireStation f : jsonFile.getFirestations()) {
-            if (p.getAddress().equals(f.getAddress())) {
-              p.setMedicalRecord(m);
-              p.setFireStation(f);
-            }
-          }
+          p.setMedicalRecord(m);
         }
       }
+    }
+    for (FireStation f : jsonFile.getFirestations()) {
+      List<Person> persons = new ArrayList<Person>();
+      for (Person p : jsonFile.getPersons()) {
+        if (f.getAddress().equals(p.getAddress())) {
+          persons.add(p); 
+        }  
+      }
+      f.setPersons(persons);
     }
     this.persons = jsonFile.getPersons();
     this.medicalrecords = jsonFile.getMedicalrecords();
