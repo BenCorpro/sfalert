@@ -20,6 +20,7 @@ import com.safetynet.sfalert.model.Json;
 import com.safetynet.sfalert.model.Person;
 import com.safetynet.sfalert.service.impl.PersonService;
 
+
 @SpringBootTest
 public class PersonServiceTest {
 
@@ -38,8 +39,24 @@ public class PersonServiceTest {
     when(json.getPersons()).thenReturn(listPersonsTest);
   }
   
+  
   @Test
-  public void testSavePerson() throws Exception{
+  public void getEmailList_CorrectCity_ReturnsEmailList() throws Exception{
+    List<String> result = personService.getEmailList("Culver");
+    assertNotNull(result);
+    assertEquals(3, result.size());
+    assertTrue(result.contains("zarc@email.com"));
+  }
+  
+  @Test
+  public void getEmailList_UnknownCity_ReturnsNull() throws Exception{
+    List<String> result = personService.getEmailList("Pitivier");
+    assertNull(result);
+  }
+  
+  
+  @Test
+  public void savePerson_CorrectInfos_ReturnsPerson() throws Exception{
     Person personTest = new Person("Jean", "Valjean", "22 rue de la Pompe", "Paris", "75018", "0609840321", "jvaljean@email.fr");
     Person result = personService.savePerson(personTest);
     assertNotNull(result);
@@ -48,14 +65,14 @@ public class PersonServiceTest {
   }
   
   @Test
-  public void testSavePersonDuplicate() throws Exception{
+  public void savePerson_DuplicateName_ReturnsNull() throws Exception{
     Person personTest = new Person("Zach", "Zemicks", "22 rue de la Pompe", "Paris", "75018", "0609840321", "jvaljean@email.fr");
     Person result = personService.savePerson(personTest);
     assertNull(result);
   }
   
   @Test
-  public void testUpdatePerson() throws Exception{
+  public void updatePerson_CorrectInfos_ReturnsPerson() throws Exception{
     Person personTest = new Person("Brian", "Stelzer", "22 rue de la Pompe", "Paris", "75018", "0609840321", "jvaljean@email.fr");
     Person result = personService.updatePerson(personTest);
     assertNotNull(result);
@@ -64,21 +81,23 @@ public class PersonServiceTest {
   }
   
   @Test
-  public void testUpdatePersonUnkwon() throws Exception{
+  public void updatePerson_UnknownNames_ReturnsNull() throws Exception{
     Person personTest = new Person("Remy", "Bouchard", "22 rue de la Pompe", "Paris", "75018", "0609840321", "jvaljean@email.fr");
     Person result = personService.updatePerson(personTest);
     assertNull(result);
   }
   
   @Test
-  public void testDeletePerson() throws Exception{
+  public void deletePerson_CorrectNames_ReturnsTrue() throws Exception{
     boolean result = personService.deletePerson("Foster", "Shepard");
     assertTrue(result);
   }
   
   @Test
-  public void testDeletePersonUnkwon() throws Exception{
+  public void deletePerson_UnknownNames_ReturnsFalse() throws Exception{
     boolean result = personService.deletePerson("Florian", "Lepreux");
     assertFalse(result);
   }
+  
+  
 }

@@ -18,25 +18,55 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.safetynet.sfalert.dto.FireAndFloodAlertDto;
 import com.safetynet.sfalert.model.FireStation;
-import com.safetynet.sfalert.service.IFireAlertService;
-import com.safetynet.sfalert.service.IFireStationAreaService;
 import com.safetynet.sfalert.service.IFireStationService;
-import com.safetynet.sfalert.service.IFloodAlertService;
-import com.safetynet.sfalert.service.IPhoneAlertService;
+
 
 @RestController
 public class FireStationController {
 
   @Autowired
-  private IFireStationAreaService fireStationAreaService;
-  @Autowired
-  private IPhoneAlertService phoneAlertService;
-  @Autowired
-  private IFireAlertService fireAlertService;
-  @Autowired
-  private IFloodAlertService floodAlertService;
-  @Autowired
   private IFireStationService fireStationService;
+  
+  
+  @GetMapping("/firestation")
+  public ResponseEntity<Map<String, Object>> stationPeople(@RequestParam("stationNumber") String stationNumber){
+    Map<String, Object> stationPeoples = fireStationService.getStationPeopleList(stationNumber);
+    if(Objects.isNull(stationPeoples)) {
+      return ResponseEntity.notFound().build();
+    } else {
+      return ResponseEntity.ok().body(stationPeoples);
+    }   
+  }
+  
+  @GetMapping("/phoneAlert")
+  public ResponseEntity<List<String>> phoneAlert(@RequestParam("firestation") String firestation){
+    List<String> phoneAlerts = fireStationService.getPhoneNumberList(firestation);
+    if(Objects.isNull(phoneAlerts)) {
+      return ResponseEntity.notFound().build();
+    } else {
+      return ResponseEntity.ok().body(phoneAlerts);
+    } 
+  }
+  
+  @GetMapping("/fire")
+  public ResponseEntity<Map<String, List<FireAndFloodAlertDto>>> fireAlert(@RequestParam("address") String address){
+    Map<String, List<FireAndFloodAlertDto>> fireAlerts = fireStationService.getFireListAddress(address);
+    if(Objects.isNull(fireAlerts)) {
+      return ResponseEntity.notFound().build();
+    } else {
+      return ResponseEntity.ok().body(fireAlerts);
+    } 
+  }
+  
+  @GetMapping("/flood/stations")
+  public ResponseEntity<Map<String, List<FireAndFloodAlertDto>>> floodAlert(@RequestParam("stations") List<String> stations){
+    Map<String, List<FireAndFloodAlertDto>> floodAlerts = fireStationService.getFloodListStation(stations);
+    if(Objects.isNull(floodAlerts)) {
+      return ResponseEntity.notFound().build();
+    } else {
+      return ResponseEntity.ok().body(floodAlerts);
+    } 
+  }
   
   
   @PostMapping("/firestation")
@@ -73,44 +103,5 @@ public class FireStationController {
     }
   }
   
-  @GetMapping("/firestation")
-  public ResponseEntity<Map<String, Object>> getStationPeoples(@RequestParam("stationNumber") String stationNumber){
-    Map<String, Object> stationPeoples = fireStationAreaService.getStationPeople(stationNumber);
-    if(Objects.isNull(stationPeoples)) {
-      return ResponseEntity.notFound().build();
-    } else {
-      return ResponseEntity.ok().body(stationPeoples);
-    }   
-  }
-  
-  @GetMapping("/phoneAlert")
-  public ResponseEntity<List<String>> getPhoneAlert(@RequestParam("firestation") String firestation){
-    List<String> phoneAlert = phoneAlertService.phoneNumberList(firestation);
-    if(Objects.isNull(phoneAlert)) {
-      return ResponseEntity.notFound().build();
-    } else {
-      return ResponseEntity.ok().body(phoneAlert);
-    } 
-  }
-  
-  @GetMapping("/fire")
-  public ResponseEntity<Map<String, List<FireAndFloodAlertDto>>> getFireAlert(@RequestParam("address") String address){
-    Map<String, List<FireAndFloodAlertDto>> fireAlert = fireAlertService.fireListAddress(address);
-    if(Objects.isNull(fireAlert)) {
-      return ResponseEntity.notFound().build();
-    } else {
-      return ResponseEntity.ok().body(fireAlert);
-    } 
-  }
-  
-  @GetMapping("/flood/stations")
-  public ResponseEntity<Map<String, List<FireAndFloodAlertDto>>> getFloodAlert(@RequestParam("stations") List<String> stations){
-    Map<String, List<FireAndFloodAlertDto>> floodAlert = floodAlertService.floodListStation(stations);
-    if(Objects.isNull(floodAlert)) {
-      return ResponseEntity.notFound().build();
-    } else {
-      return ResponseEntity.ok().body(floodAlert);
-    } 
-  }
-  
+ 
 }

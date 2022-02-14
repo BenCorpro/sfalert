@@ -15,6 +15,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.safetynet.sfalert.util.CustomJsonSerializer;
 
+
 @Component
 public class Json {
 
@@ -22,6 +23,7 @@ public class Json {
   private List<FireStation> firestations;
   private List<MedicalRecord> medicalrecords;
 
+  
   @PostConstruct
   public void retrieveData() {
     Json jsonFile = null;
@@ -54,7 +56,6 @@ public class Json {
     this.firestations = jsonFile.getFirestations();
   }
 
-
   @PreDestroy
   public void saveData(){
     Json jsonFile = new Json();
@@ -63,7 +64,7 @@ public class Json {
     jsonFile.setFireStations(this.firestations);
     try {
       ObjectMapper mapper = new ObjectMapper();
-      File file = new File("/home/tez1kat/Documents/data.json");
+      File file = new File("./src/main/resources/data.json");
       SimpleModule module = new SimpleModule("CustomJsonSerializer",
           new Version(1, 0, 0, null, null, null));
       module.addSerializer(Json.class, new CustomJsonSerializer());
@@ -74,6 +75,7 @@ public class Json {
     }
   }
 
+  
   public List<Person> getPersons() {
     return persons;
   }
@@ -98,4 +100,5 @@ public class Json {
     this.medicalrecords = medicalRecords;
   }
 
+  
 }

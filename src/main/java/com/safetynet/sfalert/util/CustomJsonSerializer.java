@@ -10,11 +10,9 @@ import com.safetynet.sfalert.model.Json;
 import com.safetynet.sfalert.model.MedicalRecord;
 import com.safetynet.sfalert.model.Person;
 
+
 public class CustomJsonSerializer extends StdSerializer<Json> {
 
-  /**
-  * 
-  */
   private static final long serialVersionUID = 1L;
 
   public CustomJsonSerializer() {
@@ -25,6 +23,7 @@ public class CustomJsonSerializer extends StdSerializer<Json> {
     super(t);
   }
 
+  
   @Override
     public void serialize(Json json, JsonGenerator jsonGenerator, SerializerProvider serializer){
       try{ jsonGenerator.writeStartObject();

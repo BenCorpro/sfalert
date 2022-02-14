@@ -64,6 +64,8 @@ public class FireAndFloodAlertDto {
   public void setAllergies(List<String> allergies) {
     this.allergies = allergies;
   }
+  
+  
   @Override
   public String toString() {
     return "FireAndFloodAlert [firstName=" + firstName + ", lastName="

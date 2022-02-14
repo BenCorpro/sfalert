@@ -2,7 +2,6 @@ package com.safetynet.sfalert.controller;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,25 +15,27 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.safetynet.sfalert.dto.ChildAlertDto;
 import com.safetynet.sfalert.model.Person;
-import com.safetynet.sfalert.dto.PersonInfoDto;
-import com.safetynet.sfalert.service.IChildAlertService;
-import com.safetynet.sfalert.service.IEmailService;
-import com.safetynet.sfalert.service.IPersonInfoService;
 import com.safetynet.sfalert.service.IPersonService;
+
 
 @RestController
 public class PersonController {
 
   @Autowired
   private IPersonService personService;
-  @Autowired
-  private IChildAlertService childAlertService;
-  @Autowired
-  private IPersonInfoService personInfoService;
-  @Autowired
-  private IEmailService emailService;
+  
+  
+  @GetMapping("/communityEmail")
+  public ResponseEntity<List<String>> eMail(@RequestParam("city") String city){
+    List<String> eMails = personService.getEmailList(city);
+    if(Objects.isNull(eMails)) {
+      return ResponseEntity.notFound().build();
+    } else {
+      return ResponseEntity.ok(eMails);
+    }
+  }
+  
   
   @PostMapping("/person")
   public ResponseEntity<Person> addPerson(@RequestBody Person person){
@@ -70,34 +71,5 @@ public class PersonController {
     }
   }
   
-  @GetMapping("/childAlert")
-  public ResponseEntity<Map<String, List<ChildAlertDto>>> getChildAlert(@RequestParam("address") String address){
-    Map<String, List<ChildAlertDto>> childAlert = childAlertService.getChilds(address);
-    if(Objects.isNull(childAlert)) {
-      return ResponseEntity.notFound().build();
-    } else {
-      return ResponseEntity.ok(childAlert);
-    }
-  }
-  
-  @GetMapping("/personInfo")
-  public ResponseEntity<List<PersonInfoDto>> getPersonInfo(@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName){
-    List<PersonInfoDto> personInfo = personInfoService.getPersonInfo(firstName, lastName);
-    if(Objects.isNull(personInfo)) {
-      return ResponseEntity.notFound().build();
-    } else {
-      return ResponseEntity.ok(personInfo);
-    }
-  }
-  
-  @GetMapping("/communityEmail")
-  public ResponseEntity<List<String>> getEmails(@RequestParam("city") String city){
-    List<String> emailList = emailService.getEmailList(city);
-    if(Objects.isNull(emailList)) {
-      return ResponseEntity.notFound().build();
-    } else {
-      return ResponseEntity.ok(emailList);
-    }
-  }
   
 }

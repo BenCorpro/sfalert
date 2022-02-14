@@ -16,11 +16,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.safetynet.sfalert.model.FireStation;
-import com.safetynet.sfalert.service.impl.FireAlertService;
-import com.safetynet.sfalert.service.impl.FireStationAreaService;
 import com.safetynet.sfalert.service.impl.FireStationService;
-import com.safetynet.sfalert.service.impl.FloodAlertService;
-import com.safetynet.sfalert.service.impl.PhoneAlertService;
+
 
 @WebMvcTest(controllers = FireStationController.class)
 public class FireStationControllerTest {
@@ -32,42 +29,36 @@ public class FireStationControllerTest {
   private ObjectMapper objectMapper;
   
   @MockBean
-  private FireStationAreaService fireStationAreaService;
-  @MockBean
-  private PhoneAlertService phoneAlertService;
-  @MockBean
-  private FireAlertService fireAlertService;
-  @MockBean
-  private FloodAlertService floodAlertService;
-  @MockBean
   private FireStationService fireStationService;
   
+  
   @Test
-  public void testgetStationPeoples() throws Exception{
+  public void stationPeople_CorrectInfo_ReturnsOkStatus() throws Exception{
     mockMvc.perform(get("/firestation?stationNumber=3"))
            .andExpect(status().isOk());
   }
   
   @Test
-  public void testGetPhoneAlert() throws Exception{
+  public void phoneAlert_CorrectInfo_ReturnsOkStatus() throws Exception{
     mockMvc.perform(get("/phoneAlert?firestation=2"))
            .andExpect(status().isOk());
   }
   
   @Test
-  public void testGetFireAlert() throws Exception{
+  public void fireAlert_CorrectInfo_ReturnsOkStatus() throws Exception{
     mockMvc.perform(get("/fire?address=489 Manchester St"))
            .andExpect(status().isOk());
   }
   
   @Test
-  public void testGetFloodAlert() throws Exception{
+  public void floodAlert_CorrectInfo_ReturnsOkStatus() throws Exception{
     mockMvc.perform(get("/flood/stations?stations=4,1"))
            .andExpect(status().isOk());
   }
   
+  
   @Test
-  public void testAddFireStation() throws Exception{
+  public void addFireStation_CorrectInfos_ReturnsCreatedStatus() throws Exception{
     FireStation fireStation = new FireStation("644 Gershwin Cir", "1");
     when(fireStationService.saveFireStation(any(FireStation.class))).thenReturn(fireStation);
     mockMvc.perform(MockMvcRequestBuilders.post("/firestation")
@@ -77,7 +68,7 @@ public class FireStationControllerTest {
   }
   
   @Test
-  public void testAddFireStationDuplicate() throws Exception{
+  public void addFireStation_DuplicateFireStation_ReturnsNoContentStatus() throws Exception{
     FireStation fireStation = new FireStation("644 Gershwin Cir", "1");
     when(fireStationService.saveFireStation(any(FireStation.class))).thenReturn(null);
     mockMvc.perform(MockMvcRequestBuilders.post("/firestation")
@@ -87,7 +78,7 @@ public class FireStationControllerTest {
   }
   
   @Test
-  public void testUpdateFireStation() throws Exception{
+  public void updateFireStation_CorrectFireStation_ReturnsOkStatus() throws Exception{
     FireStation fireStation = new FireStation("644 Gershwin Cir", "1");
     when(fireStationService.updateFireStation(any(FireStation.class))).thenReturn(fireStation);
     mockMvc.perform(MockMvcRequestBuilders.put("/firestation")
@@ -97,7 +88,7 @@ public class FireStationControllerTest {
   }
   
   @Test
-  public void testUpdateFireStationUnknown() throws Exception{
+  public void updateFireStation_UnknownFireStation_ReturnsNotFoundStatus() throws Exception{
     FireStation fireStation = new FireStation("644 Gershwin Cir", "1");
     when(fireStationService.updateFireStation(any(FireStation.class))).thenReturn(null);
     mockMvc.perform(MockMvcRequestBuilders.put("/firestation")
@@ -107,16 +98,18 @@ public class FireStationControllerTest {
   }
   
   @Test
-  public void testDeleteFireStation() throws Exception{
+  public void deleteFireStation_CorrectInfos_ReturnsOkStatus() throws Exception{
     when(fireStationService.deleteFireStation("908 73rd St")).thenReturn(true);
     mockMvc.perform(delete("/firestation?station=908 73rd St"))
            .andExpect(status().isOk()); 
   }
   
   @Test
-  public void testDeleteFireStationUnknown() throws Exception{
+  public void deleteFireStation_UnknownStation_ReturnsNotFoundStatus() throws Exception{
     when(fireStationService.deleteFireStation("908 73rd St")).thenReturn(false);
     mockMvc.perform(delete("/firestation?station=908 73rd St"))
            .andExpect(status().isNotFound()); 
   }
+  
+  
 }

@@ -3,6 +3,7 @@ package com.safetynet.sfalert.controller;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.safetynet.sfalert.model.MedicalRecord;
 import com.safetynet.sfalert.service.impl.MedicalRecordService;
 
+
 @WebMvcTest(controllers = MedicalRecordController.class)
 public class MedicalRecordControllerTest {
   
@@ -32,8 +34,22 @@ public class MedicalRecordControllerTest {
   @MockBean
   private MedicalRecordService medicalRecordService;
   
+  
   @Test
-  public void testAddMedicalRecord() throws Exception{
+  public void childAlert_CorrectAddress_ReturnsOkStatus() throws Exception{
+    mockMvc.perform(get("/childAlert?address=892 Downing Ct"))
+           .andExpect(status().isOk()); 
+  }
+  
+  @Test
+  public void personInfo_CorrectNames_ReturnsOkStatus() throws Exception{
+    mockMvc.perform(get("/personInfo?firstName=Jamie&lastName=Peters"))
+           .andExpect(status().isOk()); 
+  }
+  
+  
+  @Test
+  public void addMedicalRecord_CorrectInfos_ReturnsCreatedStatus() throws Exception{
     List<String> medicationsTest = new ArrayList<String>();
     medicationsTest.add("tetracyclaz:650mg");
     List<String> allergiesTest = new ArrayList<String>();
@@ -47,7 +63,7 @@ public class MedicalRecordControllerTest {
   }
   
   @Test
-  public void testAddMedicalRecordDuplicate() throws Exception{
+  public void addMedicalRecord_UnknownMedicalRecord_ReturnsNoContentStatus() throws Exception{
     List<String> medicationsTest = new ArrayList<String>();
     medicationsTest.add("tetracyclaz:650mg");
     List<String> allergiesTest = new ArrayList<String>();
@@ -61,7 +77,7 @@ public class MedicalRecordControllerTest {
   }
   
   @Test
-  public void testUpdateMedicalRecord() throws Exception{
+  public void updateMedicalRecord_CorrectNames_ReturnsOkStatus() throws Exception{
     List<String> medicationsTest = new ArrayList<String>();
     medicationsTest.add("tetracyclaz:650mg");
     List<String> allergiesTest = new ArrayList<String>();
@@ -75,7 +91,7 @@ public class MedicalRecordControllerTest {
   }
   
   @Test
-  public void testUpdateMedicalRecordUnknown() throws Exception{
+  public void updateMedicalRecord_UnknownNames_ReturnsNotFoundStatus() throws Exception{
     List<String> medicationsTest = new ArrayList<String>();
     medicationsTest.add("tetracyclaz:650mg");
     List<String> allergiesTest = new ArrayList<String>();
@@ -89,17 +105,18 @@ public class MedicalRecordControllerTest {
   }
   
   @Test
-  public void testDeleteMedicalRecord() throws Exception{
+  public void deleteMedicalRecord_CorrectNames_ReturnsOkStatus() throws Exception{
     when(medicalRecordService.deleteMedicalRecord("Clive","Ferguson")).thenReturn(true);
     mockMvc.perform(delete("/medicalRecord?firstName=Clive&lastName=Ferguson"))
            .andExpect(status().isOk()); 
   }
   
   @Test
-  public void testDeleteMedicalRecordUnknown() throws Exception{
+  public void deleteMedicalRecord_UnknownNames_ReturnsNotFoundStatus() throws Exception{
     when(medicalRecordService.deleteMedicalRecord("Clive","Ferguson")).thenReturn(false);
     mockMvc.perform(delete("/medicalRecord?firstName=Clive&lastName=Ferguson"))
            .andExpect(status().isNotFound()); 
   }
 
+  
 }

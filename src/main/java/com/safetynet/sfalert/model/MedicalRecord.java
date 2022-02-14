@@ -2,6 +2,7 @@ package com.safetynet.sfalert.model;
 
 import java.util.List;
 
+
 public class MedicalRecord {
   
   private String firstName;
@@ -63,7 +64,6 @@ public class MedicalRecord {
         + ", birthdate=" + birthdate + ", medications=" + medications
         + ", allergies=" + allergies + "]";
   }
-  
   
   
 }

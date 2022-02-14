@@ -2,6 +2,7 @@ package com.safetynet.sfalert.dto;
 
 
 public class ChildAlertDto {
+  
     private String lastName;
     private String firstName;
     private int age;

@@ -2,6 +2,7 @@ package com.safetynet.sfalert.model;
 
 import java.util.List;
 
+
 public class FireStation {
   
   private String address;
@@ -24,6 +25,7 @@ public class FireStation {
     this.persons = persons;
   }
 
+  
   public String getAddress() {
     return address;
   }

@@ -27,5 +27,6 @@ public class AgeCalculator {
       }
       return majority;
   }
+ 
   
 }

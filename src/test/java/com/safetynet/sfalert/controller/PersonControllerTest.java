@@ -17,10 +17,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.safetynet.sfalert.model.Person;
-import com.safetynet.sfalert.service.impl.ChildAlertService;
-import com.safetynet.sfalert.service.impl.EmailService;
-import com.safetynet.sfalert.service.impl.PersonInfoService;
 import com.safetynet.sfalert.service.impl.PersonService;
+
 
 @WebMvcTest(controllers = PersonController.class)
 public class PersonControllerTest {
@@ -33,34 +31,16 @@ public class PersonControllerTest {
   
   @MockBean
   private PersonService personService;
-  @MockBean
-  private ChildAlertService childAlertService;
-  @MockBean
-  private PersonInfoService personInfoService;
-  @MockBean
-  private EmailService emailService;
   
-  
+
   @Test
-  public void testGetChildAlert() throws Exception{
-    mockMvc.perform(get("/childAlert?address=892 Downing Ct"))
-           .andExpect(status().isOk()); 
-  }
-  
-  @Test
-  public void testGetPersonInfo() throws Exception{
-    mockMvc.perform(get("/personInfo?firstName=Jamie&lastName=Peters"))
-           .andExpect(status().isOk()); 
-  }
-  
-  @Test
-  public void testGetEmails() throws Exception{
+  public void eMail_CorrectCity_ReturnsOkStatus() throws Exception{
     mockMvc.perform(get("/communityEmail?city=Culver"))
            .andExpect(status().isOk()); 
   }
   
   @Test
-  public void testAddPerson() throws Exception{
+  public void addPerson_CorrectInfos_ReturnsCreatedStatus() throws Exception{
     Person person = new Person("Foster", "Shepard", "748 Townings Dr", "Culver", "97451", "841-874-6544", "jaboyd@email.com");
     when(personService.savePerson(any(Person.class))).thenReturn(person);
     mockMvc.perform(MockMvcRequestBuilders.post("/person")
@@ -70,7 +50,7 @@ public class PersonControllerTest {
   }
   
   @Test
-  public void testAddPersonDuplicate() throws Exception{
+  public void addPerson_DuplicatePerson_ReturnsNoContentStatus() throws Exception{
     Person person = new Person("Foster", "Shepard", "748 Townings Dr", "Culver", "97451", "841-874-6544", "jaboyd@email.com");
     when(personService.savePerson(any(Person.class))).thenReturn(null);
     mockMvc.perform(MockMvcRequestBuilders.post("/person")
@@ -80,7 +60,7 @@ public class PersonControllerTest {
   }
   
   @Test
-  public void testUpdatePerson() throws Exception{
+  public void updatePerson_CorrectInfos_ReturnsOkStatus() throws Exception{
     Person person = new Person("Foster", "Shepard", "748 Townings Dr", "Culver", "97451", "841-874-6544", "jaboyd@email.com");
     when(personService.updatePerson(any(Person.class))).thenReturn(person);
     mockMvc.perform(MockMvcRequestBuilders.put("/person")
@@ -90,7 +70,7 @@ public class PersonControllerTest {
   }
   
   @Test
-  public void testUpdatePersonUnknown() throws Exception{
+  public void updatePerson_UnknownNames_ReturnsNotFoundStatus() throws Exception{
     Person person = new Person("Foster", "Shepard", "748 Townings Dr", "Culver", "97451", "841-874-6544", "jaboyd@email.com");
     when(personService.updatePerson(any(Person.class))).thenReturn(null);
     mockMvc.perform(MockMvcRequestBuilders.put("/person")
@@ -100,16 +80,18 @@ public class PersonControllerTest {
   }
   
   @Test
-  public void testDeletePerson() throws Exception{
+  public void deletePerson_CorrectInfos_ReturnsOkStatus() throws Exception{
     when(personService.deletePerson("Jamie","Peters")).thenReturn(true);
     mockMvc.perform(delete("/person?firstName=Jamie&lastName=Peters"))
            .andExpect(status().isOk()); 
   }
   
   @Test
-  public void testDeletePersonUnknown() throws Exception{
+  public void deletePerson_UnknownNames_ReturnsNotFoundStatus() throws Exception{
     when(personService.deletePerson("Jamie","Peters")).thenReturn(false);
     mockMvc.perform(delete("/person?firstName=Jamie&lastName=Peters"))
            .andExpect(status().isNotFound()); 
   }
+  
+  
 }
