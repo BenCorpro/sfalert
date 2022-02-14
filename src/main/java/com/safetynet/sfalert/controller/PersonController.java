@@ -19,13 +19,23 @@ import com.safetynet.sfalert.model.Person;
 import com.safetynet.sfalert.service.IPersonService;
 
 
+/**
+ * The Class PersonController, REST controller for endpoints around person entity.
+ */
 @RestController
 public class PersonController {
 
+  /** The person service. */
   @Autowired
   private IPersonService personService;
   
   
+  /**
+   * E mail endpoint.
+   *
+   * @param city the city
+   * @return the http status and body if successful
+   */
   @GetMapping("/communityEmail")
   public ResponseEntity<List<String>> eMail(@RequestParam("city") String city){
     List<String> eMails = personService.getEmailList(city);
@@ -37,6 +47,12 @@ public class PersonController {
   }
   
   
+  /**
+   * Create a new person.
+   *
+   * @param person the person
+   * @return the http status and body if successful
+   */
   @PostMapping("/person")
   public ResponseEntity<Person> addPerson(@RequestBody Person person){
     Person addedPerson = personService.savePerson(person);
@@ -51,6 +67,12 @@ public class PersonController {
     }    
   }
   
+  /**
+   * Update a person.
+   *
+   * @param person the person
+   * @return the http status and body if successful
+   */
   @PutMapping("/person")
   public ResponseEntity<Person> updatePerson(@RequestBody Person person) {
     Person updatedPerson = personService.updatePerson(person);
@@ -61,6 +83,13 @@ public class PersonController {
     }
   }
   
+  /**
+   * Delete a person.
+   *
+   * @param firstName the person's first name
+   * @param lastName the person's last name
+   * @return the http status and body if successful
+   */
   @DeleteMapping("/person")
   public ResponseEntity<Boolean> deletePerson(@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName) {
     boolean personDeleted = personService.deletePerson(firstName, lastName);   

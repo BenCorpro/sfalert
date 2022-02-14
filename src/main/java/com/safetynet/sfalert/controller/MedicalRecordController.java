@@ -22,13 +22,23 @@ import com.safetynet.sfalert.model.MedicalRecord;
 import com.safetynet.sfalert.service.IMedicalRecordService;
 
 
+/**
+ * The Class MedicalRecordController, REST controller for endpoints around medicalrecord entity.
+ */
 @RestController
 public class MedicalRecordController {
 
+  /** The medical record service. */
   @Autowired
   private IMedicalRecordService medicalRecordService;
   
   
+  /**
+   * Child alert endpoint.
+   *
+   * @param address the address
+   * @return the http status and body if successful
+   */
   @GetMapping("/childAlert")
   public ResponseEntity<Map<String, List<ChildAlertDto>>> childAlert(@RequestParam("address") String address){
     Map<String, List<ChildAlertDto>> childAlerts = medicalRecordService.getChildAlertList(address);
@@ -39,6 +49,13 @@ public class MedicalRecordController {
     }
   }
   
+  /**
+   * Person info endpoint.
+   *
+   * @param firstName the person's first name
+   * @param lastName the person's last name
+   * @return the http status and body if successful
+   */
   @GetMapping("/personInfo")
   public ResponseEntity<List<PersonInfoDto>> personInfo(@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName){
     List<PersonInfoDto> personInfos = medicalRecordService.getPersonInfoList(firstName, lastName);
@@ -50,6 +67,12 @@ public class MedicalRecordController {
   }
   
   
+  /**
+   * Create a new medical record.
+   *
+   * @param medicalRecord the medical record
+   * @return the http status and body if successful
+   */
   @PostMapping("/medicalRecord")
   public ResponseEntity<MedicalRecord> addMedicalRecord(@RequestBody MedicalRecord medicalRecord){
     MedicalRecord addedMedicalRecord = medicalRecordService.saveMedicalRecord(medicalRecord);
@@ -64,6 +87,12 @@ public class MedicalRecordController {
     } 
   }
   
+  /**
+   * Update a medical record.
+   *
+   * @param medicalRecord the medical record
+   * @return the http status and body if successful
+   */
   @PutMapping("/medicalRecord")
   public ResponseEntity<MedicalRecord> updateMedicalRecord(@RequestBody MedicalRecord medicalRecord) {
     MedicalRecord updatedMedicalRecord = medicalRecordService.updateMedicalRecord(medicalRecord);
@@ -74,6 +103,13 @@ public class MedicalRecordController {
     }
   }
   
+  /**
+   * Delete a medical record.
+   *
+   * @param firstName the person's first name
+   * @param lastName the person's last name
+   * @return the http status and body if successful
+   */
   @DeleteMapping("/medicalRecord")
   public ResponseEntity<Boolean> deleteMedicalRecord(@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName) {
     boolean medicalRecordDeleted = medicalRecordService.deleteMedicalRecord(firstName, lastName);

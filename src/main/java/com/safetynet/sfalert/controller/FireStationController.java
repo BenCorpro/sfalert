@@ -21,13 +21,23 @@ import com.safetynet.sfalert.model.FireStation;
 import com.safetynet.sfalert.service.IFireStationService;
 
 
+/**
+ * The Class FireStationController, REST controller for endpoints around firestation entity.
+ */
 @RestController
 public class FireStationController {
 
+  /** The fire station service. */
   @Autowired
   private IFireStationService fireStationService;
   
   
+  /**
+   * Station people endpoint.
+   *
+   * @param stationNumber the station number
+   * @return the http status and body if successful
+   */
   @GetMapping("/firestation")
   public ResponseEntity<Map<String, Object>> stationPeople(@RequestParam("stationNumber") String stationNumber){
     Map<String, Object> stationPeoples = fireStationService.getStationPeopleList(stationNumber);
@@ -38,6 +48,12 @@ public class FireStationController {
     }   
   }
   
+  /**
+   * Phone alert endpoint.
+   *
+   * @param firestation the firestation number
+   * @return the http status and body if successful
+   */
   @GetMapping("/phoneAlert")
   public ResponseEntity<List<String>> phoneAlert(@RequestParam("firestation") String firestation){
     List<String> phoneAlerts = fireStationService.getPhoneNumberList(firestation);
@@ -48,6 +64,12 @@ public class FireStationController {
     } 
   }
   
+  /**
+   * Fire alert endpoint.
+   *
+   * @param address the address
+   * @return the http status and body if successful
+   */
   @GetMapping("/fire")
   public ResponseEntity<Map<String, List<FireAndFloodAlertDto>>> fireAlert(@RequestParam("address") String address){
     Map<String, List<FireAndFloodAlertDto>> fireAlerts = fireStationService.getFireListAddress(address);
@@ -58,6 +80,12 @@ public class FireStationController {
     } 
   }
   
+  /**
+   * Flood alert endpoint.
+   *
+   * @param stations the stations numbers
+   * @return the http status and body if successful
+   */
   @GetMapping("/flood/stations")
   public ResponseEntity<Map<String, List<FireAndFloodAlertDto>>> floodAlert(@RequestParam("stations") List<String> stations){
     Map<String, List<FireAndFloodAlertDto>> floodAlerts = fireStationService.getFloodListStation(stations);
@@ -69,6 +97,12 @@ public class FireStationController {
   }
   
   
+  /**
+   * Create a new fire station.
+   *
+   * @param fireStation the fire station
+   * @return the http status and body if successful
+   */
   @PostMapping("/firestation")
   public ResponseEntity<FireStation> addFireStation(@RequestBody FireStation fireStation) {
     FireStation addedFireStation = fireStationService.saveFireStation(fireStation);
@@ -83,6 +117,12 @@ public class FireStationController {
     }
   }
   
+  /**
+   * Update a fire station.
+   *
+   * @param fireStation the fire station
+   * @return the http status and body if successful
+   */
   @PutMapping("/firestation")
   public ResponseEntity<FireStation> updateFireStation(@RequestBody FireStation fireStation) {
     FireStation updatedFireStation = fireStationService.updateFireStation(fireStation); 
@@ -93,6 +133,12 @@ public class FireStationController {
     }
   }
   
+  /**
+   * Delete a fire station.
+   *
+   * @param station the station
+   * @return the http status and body if successful
+   */
   @DeleteMapping("/firestation")
   public ResponseEntity<Boolean> deleteFireStation(@RequestParam("station") String station) {
     boolean fireStationDeleted = fireStationService.deleteFireStation(station);

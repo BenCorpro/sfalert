@@ -14,12 +14,19 @@ import com.safetynet.sfalert.model.Person;
 import com.safetynet.sfalert.service.IPersonService;
 
 
+/**
+ * The Class PersonService, groups the service methods requiring person entity.
+ * Implements IPersonService
+ * @see IPersonService
+ */
 @Service
 public class PersonService implements IPersonService {
 
+  /** The json data file. */
   @Autowired
   private Json json;
   
+  /** The logger. */
   private static Logger logger = LoggerFactory.getLogger(PersonService.class);
 
   

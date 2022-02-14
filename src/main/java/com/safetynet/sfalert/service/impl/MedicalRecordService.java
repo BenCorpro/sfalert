@@ -22,12 +22,19 @@ import com.safetynet.sfalert.service.IMedicalRecordService;
 import com.safetynet.sfalert.util.AgeCalculator;
 
 
+/**
+ * The Class MedicalRecordService, groups the service methods requiring medicalrecord entity.
+ * Implements IMedicalRecordService
+ * @see IMedicalRecordService
+ */
 @Service
 public class MedicalRecordService implements IMedicalRecordService {
 
+  /** The json data file. */
   @Autowired
   private Json json;
   
+  /** The logger. */
   private static Logger logger = LoggerFactory.getLogger(MedicalRecord.class);
   
   

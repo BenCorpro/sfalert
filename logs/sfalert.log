@@ -1,0 +1,12 @@
+2022-02-14 11:22:01.804  INFO 15634 --- [main] c.safetynet.sfalert.SfalertApplication   : Starting SfalertApplication using Java 17.0.1 on tez1kat-OptiPlex-790 with PID 15634 (/home/tez1kat/eclipse-workspace/sfalert/target/classes started by tez1kat in /home/tez1kat/eclipse-workspace/sfalert)
+2022-02-14 11:22:01.807 DEBUG 15634 --- [main] c.safetynet.sfalert.SfalertApplication   : Running with Spring Boot v2.6.2, Spring v5.3.14
+2022-02-14 11:22:01.807  INFO 15634 --- [main] c.safetynet.sfalert.SfalertApplication   : No active profile set, falling back to default profiles: default
+2022-02-14 11:22:03.264  INFO 15634 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2022-02-14 11:22:04.435  INFO 15634 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2022-02-14 11:22:04.451  INFO 15634 --- [main] c.safetynet.sfalert.SfalertApplication   : Started SfalertApplication in 3.094 seconds (JVM running for 3.556)
+2022-02-14 14:07:17.945  INFO 4793 --- [main] c.safetynet.sfalert.SfalertApplication   : Starting SfalertApplication using Java 17.0.1 on tez1kat-OptiPlex-790 with PID 4793 (/home/tez1kat/eclipse-workspace/sfalert/target/classes started by tez1kat in /home/tez1kat/eclipse-workspace/sfalert)
+2022-02-14 14:07:17.957 DEBUG 4793 --- [main] c.safetynet.sfalert.SfalertApplication   : Running with Spring Boot v2.6.2, Spring v5.3.14
+2022-02-14 14:07:17.958  INFO 4793 --- [main] c.safetynet.sfalert.SfalertApplication   : No active profile set, falling back to default profiles: default
+2022-02-14 14:07:20.716  INFO 4793 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2022-02-14 14:07:22.077  INFO 4793 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2022-02-14 14:07:22.096  INFO 4793 --- [main] c.safetynet.sfalert.SfalertApplication   : Started SfalertApplication in 4.932 seconds (JVM running for 6.48)

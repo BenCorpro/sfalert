@@ -23,12 +23,19 @@ import com.safetynet.sfalert.service.IFireStationService;
 import com.safetynet.sfalert.util.AgeCalculator;
 
 
+/**
+ * The Class FireStationService, groups the service methods requiring firestation entity.
+ * Implements IFireStationService
+ * @see IFireStationService
+ */
 @Service
 public class FireStationService implements IFireStationService {
 
+  /** The json data file. */
   @Autowired
   private Json json;
   
+  /** The logger. */
   private static Logger logger = LoggerFactory.getLogger(FireStation.class);
   
   
